@@ -1,45 +1,29 @@
-﻿using System;
+﻿using Microsoft.Practices.Unity;
+using MVVMApp.Models;
+using Prism.Unity;
+using Reactive.Bindings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 using Xamarin.Forms;
+using XamarinFormsApp.Views;
 
 namespace XamarinFormsApp
 {
-    public class App : Application
+    public class App : PrismApplication
     {
-        public App()
+        protected override void OnInitialized()
         {
-            // The root page of your application
-            MainPage = new ContentPage
-            {
-                Content = new StackLayout
-                {
-                    VerticalOptions = LayoutOptions.Center,
-                    Children = {
-                        new Label {
-                            XAlign = TextAlignment.Center,
-                            Text = "Welcome to Xamarin Forms!"
-                        }
-                    }
-                }
-            };
+            UIDispatcherScheduler.Initialize();
+            this.NavigationService.NavigateAsync("MainPage");
         }
 
-        protected override void OnStart()
+        protected override void RegisterTypes()
         {
-            // Handle when your app starts
-        }
-
-        protected override void OnSleep()
-        {
-            // Handle when your app sleeps
-        }
-
-        protected override void OnResume()
-        {
-            // Handle when your app resumes
+            this.Container.RegisterTypeForNavigation<MainPage>();
+            this.Container.RegisterType<HotpepperApp>(new ContainerControlledLifetimeManager());
         }
     }
 }
