@@ -19,11 +19,17 @@ namespace XamarinFormsApp.Droid
 {
     public class GeoProvider : IGeoProvider
     {
-        public static Context CurrentContext { get; set; }
-
         public Task<GeoInfo> GetGeoInfoAsync()
         {
-            var ls = (LocationManager)CurrentContext.GetSystemService(Context.LocationService);
+            if (CurrentContextHolder.Context == null)
+            {
+                return Task.FromResult(new GeoInfo
+                {
+                    Lat = double.NaN,
+                    Lng = double.NaN,
+                });
+            }
+            var ls = (LocationManager)CurrentContextHolder.Context.GetSystemService(Context.LocationService);
             var criteria = new Criteria
             {
                 Accuracy = Accuracy.Coarse,

@@ -4,12 +4,7 @@
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="XamarinFormsApp.Views.MainPage">
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition />
-    </Grid.RowDefinitions>
-
+  <StackLayout>
     <Grid>
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
@@ -19,18 +14,22 @@
         <ColumnDefinition />
         <ColumnDefinition />
       </Grid.ColumnDefinitions>
-      <Entry Text="{Binding Lat.Value}"/>
-      <Entry Grid.Column="1" 
+      <Label Text="Lat" />
+      <Label Text="Lng"
+             Grid.Column="1" />
+      <Entry Grid.Row="1"
+             Text="{Binding Lat.Value}"/>
+      <Entry Grid.Column="1"
+             Grid.Row="1"
              Text="{Binding Lng.Value}"/>
-      <Button Grid.ColumnSpan="2"
-              Grid.Row="1"
-              Text="Search" 
-              Command="{Binding LoadShopsCommand}"/>
     </Grid>
-    
-    <ListView Grid.Row="1"
-              ItemsSource="{Binding Shops}"
-              HorizontalOptions="Fill">
+    <Button Text="Geo"
+            Command="{Binding LoadGeoInfoCommand}" />
+    <Button Text="Search"
+            Command="{Binding LoadShopsCommand}"/>
+
+    <ListView ItemsSource="{Binding Shops}"
+              VerticalOptions="FillAndExpand">
       <ListView.ItemTemplate>
         <DataTemplate>
           <ViewCell>
@@ -47,5 +46,5 @@
         </DataTemplate>
       </ListView.ItemTemplate>
     </ListView>
-  </Grid>
+  </StackLayout>
 </ContentPage>

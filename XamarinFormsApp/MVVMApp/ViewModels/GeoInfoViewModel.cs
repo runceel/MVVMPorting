@@ -1,6 +1,6 @@
 ﻿using MVVMApp.Models;
 using Prism.Mvvm;
-using Prism.Navigation;
+using Prism.Regions;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
@@ -11,9 +11,9 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XamarinFormsApp.ViewModels
+namespace MVVMApp.ViewModels
 {
-    public class MainPageViewModel : BindableBase, INavigationAware
+    public class GeoInfoViewModel : BindableBase, INavigationAware
     {
         private CompositeDisposable Disposable { get; set; }
 
@@ -59,17 +59,12 @@ namespace XamarinFormsApp.ViewModels
             set { this.SetProperty(ref this.loadGeoInfoCommand, value); }
         }
 
-        public MainPageViewModel(HotpepperApp app)
+        public GeoInfoViewModel(HotpepperApp app)
         {
             this.HotpepperApp = app;
         }
 
-        public void OnNavigatedFrom(NavigationParameters parameters)
-        {
-            this.Disposable.Dispose();
-        }
-
-        public void OnNavigatedTo(NavigationParameters parameters)
+        public void OnNavigatedTo(NavigationContext navigationContext)
         {
             this.Disposable = new CompositeDisposable();
             this.Lat = this.HotpepperApp
@@ -94,6 +89,16 @@ namespace XamarinFormsApp.ViewModels
             this.LoadShopsCommand = new ReactiveCommand();
             this.LoadShopsCommand.Subscribe(async _ => await this.HotpepperApp.LoadShopsAsync())
                 .AddTo(this.Disposable);
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            this.Disposable.Dispose();
         }
     }
 }

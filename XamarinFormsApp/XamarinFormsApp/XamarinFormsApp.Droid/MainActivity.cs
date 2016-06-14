@@ -18,7 +18,7 @@ namespace XamarinFormsApp.Droid
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            GeoProvider.CurrentContext = this;
+            CurrentContextHolder.Context = this;
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App());
@@ -27,7 +27,13 @@ namespace XamarinFormsApp.Droid
         protected override void OnResume()
         {
             base.OnResume();
-            GeoProvider.CurrentContext = null;
+            CurrentContextHolder.Context = this;
+        }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+            CurrentContextHolder.Context = null;
         }
     }
 }
