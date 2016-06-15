@@ -23,6 +23,14 @@ namespace MVVMApp.Models
             set { this.SetProperty(ref this.geoInfo, value); }
         }
 
+        private Shop selectedShop;
+
+        public Shop SelectedShop
+        {
+            get { return this.selectedShop; }
+            set { this.SetProperty(ref this.selectedShop, value); }
+        }
+
         public ObservableCollection<Shop> Shops { get; } = new ObservableCollection<Shop>();
 
         public HotpepperApp(IGeoProvider geoProvider, HotpepperClient hotpepperClient)

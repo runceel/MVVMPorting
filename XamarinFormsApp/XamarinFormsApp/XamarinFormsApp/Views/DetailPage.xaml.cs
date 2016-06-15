@@ -1,11 +1,10 @@
 ﻿using Xamarin.Forms;
-using XamarinFormsApp.ViewModels;
 
 namespace XamarinFormsApp.Views
 {
-    public partial class MainPage : ContentPage
+    public partial class DetailPage : ContentPage
     {
-        public MainPage()
+        public DetailPage()
         {
             InitializeComponent();
         }

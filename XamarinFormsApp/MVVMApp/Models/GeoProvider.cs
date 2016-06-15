@@ -12,12 +12,20 @@ namespace MVVMApp.Models
             var result = geo.TryStart(false, TimeSpan.FromSeconds(2));
             if (result)
             {
-                var geoInfo = new GeoInfo
+                var taskSource = new TaskCompletionSource<GeoInfo>();
+                Task.Run(async () =>
                 {
-                    Lat = geo.Position.Location.Latitude,
-                    Lng = geo.Position.Location.Longitude,
-                };
-                return Task.FromResult(geoInfo);
+                    while(geo.Position.Location.IsUnknown)
+                    {
+                        await Task.Delay(10);
+                    }
+                    taskSource.SetResult(new GeoInfo
+                    {
+                        Lat = geo.Position.Location.Latitude,
+                        Lng = geo.Position.Location.Longitude,
+                    });
+                });
+                return taskSource.Task;
             }
             else
             {

@@ -6,8 +6,16 @@
         xmlns:local="clr-namespace:MVVMApp.Views"
         xmlns:Prism="http://prismlibrary.com/"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="300">
+        Title="MainWindow"
+        Height="600"
+        Width="800">
     <Grid>
-        <ContentControl Prism:RegionManager.RegionName="Main" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <ContentControl Prism:RegionManager.RegionName="Master" />
+        <ContentControl Grid.Column="1"
+                        Prism:RegionManager.RegionName="Detail" />
     </Grid>
 </Window>

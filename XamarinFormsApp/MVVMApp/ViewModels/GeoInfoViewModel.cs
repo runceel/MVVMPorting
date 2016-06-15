@@ -1,4 +1,5 @@
 ﻿using MVVMApp.Models;
+using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
 using Prism.Regions;
 using Reactive.Bindings;
@@ -43,6 +44,14 @@ namespace MVVMApp.ViewModels
             set { this.SetProperty(ref this.shops, value); }
         }
 
+        private ReactiveProperty<ShopViewModel> selectedShop;
+
+        public ReactiveProperty<ShopViewModel> SelectedShop
+        {
+            get { return this.selectedShop; }
+            set { this.SetProperty(ref this.selectedShop, value); }
+        }
+
         private ReactiveCommand loadShopsCommand;
 
         public ReactiveCommand LoadShopsCommand
@@ -67,25 +76,36 @@ namespace MVVMApp.ViewModels
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             this.Disposable = new CompositeDisposable();
+
             this.Lat = this.HotpepperApp
                 .ObserveProperty(x => x.GeoInfo)
                 .Where(x => x != null)
                 .Select(x => x.Lat)
                 .ToReadOnlyReactiveProperty()
                 .AddTo(this.Disposable);
+
             this.Lng = this.HotpepperApp
                 .ObserveProperty(x => x.GeoInfo)
                 .Where(x => x != null)
                 .Select(x => x.Lng)
                 .ToReadOnlyReactiveProperty()
                 .AddTo(this.Disposable);
+
             this.Shops = this.HotpepperApp
                 .Shops
                 .ToReadOnlyReactiveCollection(x => new ShopViewModel(x))
                 .AddTo(this.Disposable);
+
+            this.SelectedShop = this.HotpepperApp
+                .ToReactivePropertyAsSynchronized(
+                    x => x.SelectedShop,
+                    convert: x => new ShopViewModel(x),
+                    convertBack: x => x.Model);
+
             this.LoadGeoInfoCommand = new ReactiveCommand();
             this.LoadGeoInfoCommand.Subscribe(async _ => await this.HotpepperApp.LoadGeoInfoAsync())
                 .AddTo(this.Disposable);
+
             this.LoadShopsCommand = new ReactiveCommand();
             this.LoadShopsCommand.Subscribe(async _ => await this.HotpepperApp.LoadShopsAsync())
                 .AddTo(this.Disposable);

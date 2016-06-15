@@ -9,7 +9,7 @@ namespace XamarinFormsApp.ViewModels
 {
     public class ShopViewModel
     {
-        private Shop Model { get; }
+        public Shop Model { get; }
 
         public string Name => this.Model.name;
 

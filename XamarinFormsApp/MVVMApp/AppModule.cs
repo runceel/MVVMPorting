@@ -29,8 +29,11 @@ namespace MVVMApp
             this.Container.RegisterType<IGeoProvider, GeoProvider>(new ContainerControlledLifetimeManager());
             this.Container.RegisterType<HotpepperApp>(new ContainerControlledLifetimeManager());
             this.Container.RegisterType<object, GeoInfoView>(nameof(GeoInfoView));
+            this.Container.RegisterType<object, DetailView>(nameof(DetailView));
 
-            this.RegionManager.RequestNavigate("Main", nameof(GeoInfoView));
+            this.RegionManager.RequestNavigate("Master", nameof(GeoInfoView));
+            this.RegionManager.RequestNavigate("Detail", nameof(DetailView));
+
         }
     }
 }
