@@ -6,6 +6,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using MVVMApp.Models;
+using Microsoft.Practices.Unity;
 
 [assembly:UsesPermission("android.permission.ACCESS_FINE_LOCATION")]
 [assembly:UsesPermission("android.permission.ACCESS_COARSE_LOCATION")]
@@ -18,22 +20,9 @@ namespace XamarinFormsApp.Droid
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            CurrentContextHolder.Context = this;
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App());
-        }
-
-        protected override void OnResume()
-        {
-            base.OnResume();
-            CurrentContextHolder.Context = this;
-        }
-
-        protected override void OnPause()
-        {
-            base.OnPause();
-            CurrentContextHolder.Context = null;
         }
     }
 }

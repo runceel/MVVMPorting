@@ -12,6 +12,7 @@ using Android.Widget;
 using MVVMApp.Models;
 using Android.Locations;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 [assembly: Xamarin.Forms.Dependency(typeof(XamarinFormsApp.Droid.GeoProvider))]
 
@@ -21,15 +22,7 @@ namespace XamarinFormsApp.Droid
     {
         public Task<GeoInfo> GetGeoInfoAsync()
         {
-            if (CurrentContextHolder.Context == null)
-            {
-                return Task.FromResult(new GeoInfo
-                {
-                    Lat = double.NaN,
-                    Lng = double.NaN,
-                });
-            }
-            var ls = (LocationManager)CurrentContextHolder.Context.GetSystemService(Context.LocationService);
+            var ls = (LocationManager)Forms.Context.GetSystemService(Context.LocationService);
             var criteria = new Criteria
             {
                 Accuracy = Accuracy.Coarse,

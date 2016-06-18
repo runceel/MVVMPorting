@@ -79,15 +79,15 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="ReactiveProperty, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ReactiveProperty.2.7.3\lib\MonoAndroid\ReactiveProperty.dll</HintPath>
+      <HintPath>..\..\packages\ReactiveProperty.2.7.3.1\lib\MonoAndroid\ReactiveProperty.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ReactiveProperty.Android, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ReactiveProperty.2.7.3\lib\MonoAndroid\ReactiveProperty.Android.dll</HintPath>
+      <HintPath>..\..\packages\ReactiveProperty.2.7.3.1\lib\MonoAndroid\ReactiveProperty.Android.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ReactiveProperty.DataAnnotations, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ReactiveProperty.2.7.3\lib\MonoAndroid\ReactiveProperty.DataAnnotations.dll</HintPath>
+      <HintPath>..\..\packages\ReactiveProperty.2.7.3.1\lib\MonoAndroid\ReactiveProperty.DataAnnotations.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -162,7 +162,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CurrentContextHolder.cs" />
     <Compile Include="GeoProvider.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />

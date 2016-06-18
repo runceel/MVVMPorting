@@ -14,10 +14,10 @@ namespace XamarinFormsApp
 {
     public class App : PrismApplication
     {
-        protected override void OnInitialized()
+        protected override async void OnInitialized()
         {
             UIDispatcherScheduler.Initialize();
-            this.NavigationService.NavigateAsync("MainPage");
+            await this.NavigationService.NavigateAsync("MainPage");
         }
 
         protected override void RegisterTypes()
