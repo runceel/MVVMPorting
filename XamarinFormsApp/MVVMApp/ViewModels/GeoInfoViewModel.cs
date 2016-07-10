@@ -18,7 +18,7 @@ namespace MVVMApp.ViewModels
     {
         private CompositeDisposable Disposable { get; set; }
 
-        private HotpepperApp HotpepperApp { get; }
+        private IHotpepperApp HotpepperApp { get; }
 
         private ReadOnlyReactiveProperty<double> lat;
 
@@ -68,7 +68,7 @@ namespace MVVMApp.ViewModels
             set { this.SetProperty(ref this.loadGeoInfoCommand, value); }
         }
 
-        public GeoInfoViewModel(HotpepperApp app)
+        public GeoInfoViewModel(IHotpepperApp app)
         {
             this.HotpepperApp = app;
         }

@@ -26,8 +26,11 @@ namespace MVVMApp
 
         public void Initialize()
         {
+            // register models
             this.Container.RegisterType<IGeoProvider, GeoProvider>(new ContainerControlledLifetimeManager());
-            this.Container.RegisterType<HotpepperApp>(new ContainerControlledLifetimeManager());
+            this.Container.RegisterType<IHotpepperApp, HotpepperApp>(new ContainerControlledLifetimeManager());
+            this.Container.RegisterType<IHotpepperClient, HotpepperClient>(new ContainerControlledLifetimeManager());
+            // register pages
             this.Container.RegisterType<object, GeoInfoView>(nameof(GeoInfoView));
             this.Container.RegisterType<object, DetailView>(nameof(DetailView));
 

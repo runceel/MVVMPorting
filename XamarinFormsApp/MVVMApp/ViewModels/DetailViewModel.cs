@@ -1,5 +1,6 @@
 ﻿using MVVMApp.Models;
 using Prism.Interactivity.InteractionRequest;
+using Prism.Mvvm;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace MVVMApp.ViewModels
 {
-    public class DetailViewModel
+    public class DetailViewModel : BindableBase
     {
         private HotpepperApp Model { get; }
 

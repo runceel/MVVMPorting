@@ -13,7 +13,12 @@ using System.Xml.Serialization;
 
 namespace MVVMApp.Models
 {
-    public class HotpepperClient
+    public interface IHotpepperClient
+    {
+        Task<Rootobject> SearchAsync(double lat, double lng);
+    }
+
+    public class HotpepperClient : IHotpepperClient
     {
         public async Task<Rootobject> SearchAsync(double lat, double lng)
         {

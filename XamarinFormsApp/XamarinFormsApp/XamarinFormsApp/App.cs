@@ -22,9 +22,12 @@ namespace XamarinFormsApp
 
         protected override void RegisterTypes()
         {
+            // register pages
             this.Container.RegisterTypeForNavigation<MainPage>();
             this.Container.RegisterTypeForNavigation<DetailPage>();
-            this.Container.RegisterType<HotpepperApp>(new ContainerControlledLifetimeManager());
+            // register models
+            this.Container.RegisterType<IHotpepperApp, HotpepperApp>(new ContainerControlledLifetimeManager());
+            this.Container.RegisterType<IHotpepperClient, HotpepperClient>(new ContainerControlledLifetimeManager());
         }
     }
 }

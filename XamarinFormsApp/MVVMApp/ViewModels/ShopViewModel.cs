@@ -1,8 +1,9 @@
 ﻿using MVVMApp.Models.Raw;
+using Prism.Mvvm;
 
 namespace MVVMApp.ViewModels
 {
-    public class ShopViewModel
+    public class ShopViewModel : BindableBase
     {
         public Shop Model { get; }
 
