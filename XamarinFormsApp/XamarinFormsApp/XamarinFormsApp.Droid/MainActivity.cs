@@ -1,16 +1,10 @@
-﻿using System;
-
+﻿
 using Android.App;
 using Android.Content.PM;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
-using MVVMApp.Models;
-using Microsoft.Practices.Unity;
 
-[assembly:UsesPermission("android.permission.ACCESS_FINE_LOCATION")]
-[assembly:UsesPermission("android.permission.ACCESS_COARSE_LOCATION")]
+[assembly: UsesPermission("android.permission.ACCESS_FINE_LOCATION")]
+[assembly: UsesPermission("android.permission.ACCESS_COARSE_LOCATION")]
 
 namespace XamarinFormsApp.Droid
 {

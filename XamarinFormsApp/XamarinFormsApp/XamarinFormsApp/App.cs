@@ -2,12 +2,6 @@
 using MVVMApp.Models;
 using Prism.Unity;
 using Reactive.Bindings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Xamarin.Forms;
 using XamarinFormsApp.Views;
 
 namespace XamarinFormsApp

@@ -1,13 +1,8 @@
-﻿using MVVMApp.Views;
-using Prism.Unity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using Microsoft.Practices.Unity;
+﻿using Microsoft.Practices.Unity;
+using MVVMApp.Views;
 using Prism.Modularity;
+using Prism.Unity;
+using System.Windows;
 
 namespace MVVMApp
 {

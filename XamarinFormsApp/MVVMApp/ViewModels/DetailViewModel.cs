@@ -1,15 +1,9 @@
 ﻿using MVVMApp.Models;
-using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MVVMApp.ViewModels
 {
