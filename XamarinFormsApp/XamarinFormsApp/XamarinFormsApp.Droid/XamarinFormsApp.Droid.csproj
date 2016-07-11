@@ -164,6 +164,7 @@
   <ItemGroup>
     <Compile Include="GeoProvider.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="PlatformInitializer.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

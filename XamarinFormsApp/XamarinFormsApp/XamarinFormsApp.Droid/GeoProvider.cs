@@ -6,8 +6,6 @@ using MVVMApp.Models;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-[assembly: Xamarin.Forms.Dependency(typeof(XamarinFormsApp.Droid.GeoProvider))]
-
 namespace XamarinFormsApp.Droid
 {
     public class GeoProvider : IGeoProvider
