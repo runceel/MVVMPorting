@@ -21,7 +21,7 @@ namespace MVVMApp.ViewModels
         public ReadOnlyReactiveProperty<double> Lat
         {
             get { return this.lat; }
-            set { this.SetProperty(ref this.lat, value); }
+            private set { this.SetProperty(ref this.lat, value); }
         }
 
         private ReadOnlyReactiveProperty<double> lng;
@@ -29,7 +29,7 @@ namespace MVVMApp.ViewModels
         public ReadOnlyReactiveProperty<double> Lng
         {
             get { return this.lng; }
-            set { this.SetProperty(ref this.lng, value); }
+            private set { this.SetProperty(ref this.lng, value); }
         }
 
         private ReadOnlyReactiveCollection<ShopViewModel> shops;
@@ -37,7 +37,7 @@ namespace MVVMApp.ViewModels
         public ReadOnlyReactiveCollection<ShopViewModel> Shops
         {
             get { return this.shops; }
-            set { this.SetProperty(ref this.shops, value); }
+            private set { this.SetProperty(ref this.shops, value); }
         }
 
         private ReactiveProperty<ShopViewModel> selectedShop;
@@ -45,7 +45,7 @@ namespace MVVMApp.ViewModels
         public ReactiveProperty<ShopViewModel> SelectedShop
         {
             get { return this.selectedShop; }
-            set { this.SetProperty(ref this.selectedShop, value); }
+            private set { this.SetProperty(ref this.selectedShop, value); }
         }
 
         private ReactiveCommand loadShopsCommand;
@@ -53,7 +53,7 @@ namespace MVVMApp.ViewModels
         public ReactiveCommand LoadShopsCommand
         {
             get { return this.loadShopsCommand; }
-            set { this.SetProperty(ref this.loadShopsCommand, value); }
+            private set { this.SetProperty(ref this.loadShopsCommand, value); }
         }
 
         private ReactiveCommand loadGeoInfoCommand;
@@ -61,7 +61,7 @@ namespace MVVMApp.ViewModels
         public ReactiveCommand LoadGeoInfoCommand
         {
             get { return this.loadGeoInfoCommand; }
-            set { this.SetProperty(ref this.loadGeoInfoCommand, value); }
+            private set { this.SetProperty(ref this.loadGeoInfoCommand, value); }
         }
 
         public GeoInfoViewModel(IHotpepperApp app)
@@ -107,14 +107,8 @@ namespace MVVMApp.ViewModels
                 .AddTo(this.Disposable);
         }
 
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
+        public bool IsNavigationTarget(NavigationContext navigationContext) => true;
 
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-            this.Disposable.Dispose();
-        }
+        public void OnNavigatedFrom(NavigationContext navigationContext) => this.Disposable.Dispose();
     }
 }
