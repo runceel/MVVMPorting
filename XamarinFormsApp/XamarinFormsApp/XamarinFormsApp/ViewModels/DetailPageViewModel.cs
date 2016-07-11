@@ -10,10 +10,11 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using XamarinFormsApp.Commons;
 
 namespace XamarinFormsApp.ViewModels
 {
-    public class DetailPageViewModel : BindableBase, INavigationAware
+    public class DetailPageViewModel : BindableBase, INavigationEventAware
     {
         private CompositeDisposable Disposable { get; set; }
 
@@ -48,12 +49,13 @@ namespace XamarinFormsApp.ViewModels
             this.Model = model;
         }
 
-        public void OnNavigatedFrom(NavigationParameters parameters)
+        public void Disappearing()
         {
             this.Disposable.Dispose();
+            this.Disposable = null;
         }
 
-        public void OnNavigatedTo(NavigationParameters parameters)
+        public void Appearing()
         {
             this.Disposable = new CompositeDisposable();
 

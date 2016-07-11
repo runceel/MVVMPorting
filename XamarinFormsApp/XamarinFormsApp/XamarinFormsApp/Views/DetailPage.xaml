@@ -1,10 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Commons="clr-namespace:XamarinFormsApp.Commons;assembly=XamarinFormsApp"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="XamarinFormsApp.Views.DetailPage"
              Title="Detail">
+  <ContentPage.Behaviors>
+    <Commons:InvokeNavigationEventBehavior />
+  </ContentPage.Behaviors>
   <StackLayout>
     <Label Text="{Binding Name.Value}" />
     <Label Text="{Binding Kana.Value}" />

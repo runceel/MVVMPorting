@@ -10,11 +10,14 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using XamarinFormsApp.Commons;
 
 namespace XamarinFormsApp.ViewModels
 {
-    public class MainPageViewModel : BindableBase
+    public class MainPageViewModel : BindableBase, INavigationEventAware
     {
+        private CompositeDisposable Disposable { get; set; }
+
         private HotpepperApp HotpepperApp { get; }
 
         private INavigationService NavigationService { get; }
@@ -43,7 +46,14 @@ namespace XamarinFormsApp.ViewModels
             set { this.SetProperty(ref this.shops, value); }
         }
 
-        public ReactiveProperty<ShopViewModel> SelectedShop { get; } = new ReactiveProperty<ShopViewModel>();
+        private ReactiveProperty<ShopViewModel> selectedShop;
+
+        public ReactiveProperty<ShopViewModel> SelectedShop
+        {
+            get { return this.selectedShop; }
+            set { this.SetProperty(ref this.selectedShop, value); }
+        }
+
 
         private ReactiveCommand loadShopsCommand;
 
@@ -65,38 +75,53 @@ namespace XamarinFormsApp.ViewModels
         {
             this.HotpepperApp = app;
             this.NavigationService = navigationService;
+        }
 
+        public void Appearing()
+        {
+            this.Disposable = new CompositeDisposable();
             this.Lat = this.HotpepperApp
                 .ObserveProperty(x => x.GeoInfo)
                 .Where(x => x != null)
                 .Select(x => x.Lat)
-                .ToReadOnlyReactiveProperty();
+                .ToReadOnlyReactiveProperty()
+                .AddTo(this.Disposable);
 
             this.Lng = this.HotpepperApp
                 .ObserveProperty(x => x.GeoInfo)
                 .Where(x => x != null)
                 .Select(x => x.Lng)
-                .ToReadOnlyReactiveProperty();
+                .ToReadOnlyReactiveProperty()
+                .AddTo(this.Disposable);
 
             this.Shops = this.HotpepperApp
                 .Shops
-                .ToReadOnlyReactiveCollection(x => new ShopViewModel(x));
+                .ToReadOnlyReactiveCollection(x => new ShopViewModel(x))
+                .AddTo(this.Disposable);
 
+            this.SelectedShop = new ReactiveProperty<ShopViewModel>(this.Shops.FirstOrDefault(x => x.Model == this.HotpepperApp.SelectedShop));
             this.SelectedShop
-                .Where(x => x?.Model != null)
+                .Skip(1)
                 .Subscribe(async x =>
                 {
                     this.HotpepperApp.SelectedShop = x.Model;
                     await this.NavigationService.NavigateAsync("DetailPage");
-                });
-
+                })
+                .AddTo(this.Disposable);
 
             this.LoadGeoInfoCommand = new ReactiveCommand();
-            this.LoadGeoInfoCommand.Subscribe(async _ => await this.HotpepperApp.LoadGeoInfoAsync());
+            this.LoadGeoInfoCommand.Subscribe(async _ => await this.HotpepperApp.LoadGeoInfoAsync())
+                .AddTo(this.Disposable);
 
             this.LoadShopsCommand = new ReactiveCommand();
-            this.LoadShopsCommand.Subscribe(async _ => await this.HotpepperApp.LoadShopsAsync());
+            this.LoadShopsCommand.Subscribe(async _ => await this.HotpepperApp.LoadShopsAsync())
+                .AddTo(this.Disposable);
         }
-        
+
+        public void Disappearing()
+        {
+            this.Disposable.Dispose();
+            this.Disposable = null;
+        }
     }
 }
