@@ -85,5 +85,7 @@ namespace MVVMApp.Test.ViewModels
         public Task LoadGeoInfoAsync() => Task.CompletedTask;
 
         public Task LoadShopsAsync() => Task.CompletedTask;
+
+        public Task SetSelectedShopByIdAsync(string id) => Task.CompletedTask;
     }
 }

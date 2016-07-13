@@ -1,6 +1,6 @@
 ﻿using MVVMApp.Models;
-using Prism.Mvvm;
-using Prism.Navigation;
+using Prism.Windows.Mvvm;
+using Prism.Windows.Navigation;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
@@ -10,11 +10,10 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using XamarinFormsApp.Commons;
 
-namespace XamarinFormsApp.ViewModels
+namespace MVVMApp.UWP.ViewModels
 {
-    public class MainPageViewModel : BindableBase, INavigationEventAware
+    public class MainPageViewModel : ViewModelBase
     {
         private CompositeDisposable Disposable { get; set; }
 
@@ -77,8 +76,9 @@ namespace XamarinFormsApp.ViewModels
             this.NavigationService = navigationService;
         }
 
-        public void Appearing()
+        public override void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
         {
+            base.OnNavigatedTo(e, viewModelState);
             this.Disposable = new CompositeDisposable();
             this.Lat = this.HotpepperApp
                 .ObserveProperty(x => x.GeoInfo)
@@ -102,9 +102,9 @@ namespace XamarinFormsApp.ViewModels
             this.SelectedShop = new ReactiveProperty<ShopViewModel>(this.Shops.FirstOrDefault(x => x.Model == this.HotpepperApp.SelectedShop));
             this.SelectedShop
                 .Skip(1)
-                .Subscribe(async x =>
+                .Subscribe(x =>
                 {
-                    await this.NavigationService.NavigateAsync($"DetailPage?id={x.Model.id}");
+                    this.NavigationService.Navigate("Detail", x.Model.id);
                 })
                 .AddTo(this.Disposable);
 
@@ -117,10 +117,13 @@ namespace XamarinFormsApp.ViewModels
                 .AddTo(this.Disposable);
         }
 
-        public void Disappearing()
+        public override void OnNavigatingFrom(NavigatingFromEventArgs e, Dictionary<string, object> viewModelState, bool suspending)
         {
-            this.Disposable.Dispose();
-            this.Disposable = null;
+            base.OnNavigatingFrom(e, viewModelState, suspending);
+            if (!suspending)
+            {
+                this.Disposable.Dispose();
+            }
         }
     }
 }

@@ -14,7 +14,7 @@ using XamarinFormsApp.Commons;
 
 namespace XamarinFormsApp.ViewModels
 {
-    public class DetailPageViewModel : BindableBase, INavigationEventAware
+    public class DetailPageViewModel : BindableBase, INavigationEventAware, INavigationAware
     {
         private CompositeDisposable Disposable { get; set; }
 
@@ -76,6 +76,15 @@ namespace XamarinFormsApp.ViewModels
                 .Select(x => x?.photo?.mobile?.l)
                 .ToReadOnlyReactiveProperty()
                 .AddTo(this.Disposable);
+        }
+
+        public void OnNavigatedFrom(NavigationParameters parameters)
+        {
+        }
+
+        public async void OnNavigatedTo(NavigationParameters parameters)
+        {
+            await this.Model.SetSelectedShopByIdAsync((string)parameters["id"]);
         }
     }
 }

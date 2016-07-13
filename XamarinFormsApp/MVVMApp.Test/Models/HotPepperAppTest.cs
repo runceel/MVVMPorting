@@ -4,6 +4,7 @@ using MVVMApp.Models;
 using Moq;
 using System.Threading.Tasks;
 using MVVMApp.Models.Raw;
+using Reactive.Bindings.Extensions;
 
 namespace MVVMApp.Test.Models
 {
@@ -67,6 +68,68 @@ namespace MVVMApp.Test.Models
 
             await target.LoadShopsAsync();
             Assert.AreEqual(3, target.Shops.Count);
+        }
+
+        [TestMethod]
+        public async Task SetSelectedByIdAsync()
+        {
+            var target = new HotpepperApp(null, null)
+            {
+                Shops =
+                {
+                    new Shop { id = "1" },
+                    new Shop { id = "2" },
+                    new Shop { id = "3" },
+                }
+            };
+
+            int propertyChangedCount = 0;
+            target.PropertyChanged += (_, e) =>
+            {
+                if (e.PropertyName == nameof(HotpepperApp.SelectedShop))
+                {
+                    propertyChangedCount++;
+                }
+            };
+
+            Assert.IsNull(target.SelectedShop);
+            Assert.AreEqual(0, propertyChangedCount);
+
+            await target.SetSelectedShopByIdAsync("1");
+            Assert.AreEqual("1", target.SelectedShop.id);
+            Assert.AreEqual(1, propertyChangedCount);
+        }
+
+        [TestMethod]
+        public async Task SetSelectedByIdAsyncAndLoadData()
+        {
+            var clientMock = new Mock<IHotpepperClient>();
+            clientMock.Setup(x => x.SearchAsync(It.IsAny<double>(), It.IsAny<double>()))
+                .Returns(Task.FromResult(new Rootobject
+                {
+                    results = new Results
+                    {
+                        shop = new[]
+                        {
+                            new Shop { id = "1" },
+                            new Shop { id = "2" },
+                            new Shop { id = "3" },
+                        }
+                    }
+                }))
+                .Verifiable();
+            var geoProviderMock = new Mock<IGeoProvider>();
+            geoProviderMock.Setup(x => x.GetGeoInfoAsync())
+                .Returns(Task.FromResult(new GeoInfo
+                {
+                    Lat = 0.0,
+                    Lng = 0.0,
+                }));
+            var target = new HotpepperApp(geoProviderMock.Object, clientMock.Object);
+            await target.LoadGeoInfoAsync();
+            await target.SetSelectedShopByIdAsync("1");
+            Assert.AreEqual("1", target.SelectedShop.id);
+            clientMock.Verify();
         }
     }
 }

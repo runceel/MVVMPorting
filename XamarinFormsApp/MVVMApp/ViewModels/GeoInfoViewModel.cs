@@ -92,11 +92,13 @@ namespace MVVMApp.ViewModels
                 .ToReadOnlyReactiveCollection(x => new ShopViewModel(x))
                 .AddTo(this.Disposable);
 
-            this.SelectedShop = this.HotpepperApp
-                .ToReactivePropertyAsSynchronized(
-                    x => x.SelectedShop,
-                    convert: x => new ShopViewModel(x),
-                    convertBack: x => x.Model);
+            this.SelectedShop = new ReactiveProperty<ShopViewModel>();
+            this.SelectedShop
+                .Subscribe(async x =>
+                {
+                    await this.HotpepperApp.SetSelectedShopByIdAsync(x?.Model?.id);
+                })
+                .AddTo(this.Disposable);
 
             this.LoadGeoInfoCommand = new ReactiveCommand();
             this.LoadGeoInfoCommand.Subscribe(async _ => await this.HotpepperApp.LoadGeoInfoAsync())

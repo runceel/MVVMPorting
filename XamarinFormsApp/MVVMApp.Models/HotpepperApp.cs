@@ -2,6 +2,7 @@
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MVVMApp.Models
@@ -10,9 +11,11 @@ namespace MVVMApp.Models
     {
         GeoInfo GeoInfo { get; }
 
-        Shop SelectedShop { get; set; }
+        Shop SelectedShop { get; }
 
         ObservableCollection<Shop> Shops { get; }
+
+        Task SetSelectedShopByIdAsync(string id);
 
         Task LoadGeoInfoAsync();
 
@@ -38,7 +41,7 @@ namespace MVVMApp.Models
         public Shop SelectedShop
         {
             get { return this.selectedShop; }
-            set { this.SetProperty(ref this.selectedShop, value); }
+            private set { this.SetProperty(ref this.selectedShop, value); }
         }
 
         public ObservableCollection<Shop> Shops { get; } = new ObservableCollection<Shop>();
@@ -47,6 +50,21 @@ namespace MVVMApp.Models
         {
             this.GeoProvider = geoProvider;
             this.HotpepperClient = hotpepperClient;
+        }
+
+        public async Task SetSelectedShopByIdAsync(string id)
+        {
+            if (id == this.SelectedShop?.id)
+            {
+                return;
+            }
+
+            if (!this.Shops.Any())
+            {
+                await this.LoadShopsAsync();
+            }
+
+            this.SelectedShop = this.Shops.FirstOrDefault(x => x.id == id);
         }
 
         public async Task LoadGeoInfoAsync()
