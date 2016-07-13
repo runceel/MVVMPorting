@@ -1,4 +1,5 @@
 ﻿using Xamarin.Forms;
+using XamarinFormsApp.ViewModels;
 
 namespace XamarinFormsApp.Views
 {

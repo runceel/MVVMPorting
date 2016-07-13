@@ -1,36 +1,66 @@
-﻿<Page x:Class="MVVMApp.UWP.Views.MainPage"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:local="using:MVVMApp.UWP.Views"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:Mvvm="using:Prism.Windows.Mvvm"
+      xmlns:ViewModels="using:MVVMApp.UWP.ViewModels"
+      xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:Commons="using:MVVMApp.UWP.Commons"
+      x:Class="MVVMApp.UWP.Views.MainPage"
       Mvvm:ViewModelLocator.AutoWireViewModel="True"
       mc:Ignorable="d">
     <Page.BottomAppBar>
         <CommandBar>
             <AppBarButton Icon="MapPin"
-                          Label="Location" />
+                          Label="Location"
+                          Command="{x:Bind ViewModel.LoadGeoInfoCommand}" />
             <AppBarButton Icon="Refresh"
-                          Label="Load" />
+                          Label="Load"
+                          Command="{x:Bind ViewModel.LoadShopsCommand}" />
         </CommandBar>
     </Page.BottomAppBar>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <TextBox Header="Lat" 
-                 Margin="2.5"/>
+        <TextBox Header="Lat"
+                 IsReadOnly="True"
+                 Text="{x:Bind ViewModel.Lat.Value, Mode=OneWay}"
+                 Margin="2.5" />
         <TextBox Header="Lng"
+                 IsReadOnly="True"
+                 Text="{x:Bind ViewModel.Lng.Value, Mode=OneWay}"
                  Margin="2.5"
                  Grid.Column="1" />
-        <ListView Grid.Row="1">
-            
+        <ListView ItemsSource="{x:Bind ViewModel.Shops}"
+                  SelectionMode="None"
+                  IsItemClickEnabled="True"
+                  Grid.Row="1"
+                  Grid.ColumnSpan="2">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="ViewModels:ShopViewModel">
+                    <StackPanel>
+                        <TextBlock Text="{x:Bind Name}"
+                                   Style="{StaticResource BodyTextBlockStyle}" />
+                        <TextBlock Text="{x:Bind NameKana}"
+                                   Style="{StaticResource BodyTextBlockStyle}"
+                                   Foreground="{ThemeResource SystemControlDisabledBaseLowBrush}"
+                                   FontSize="12" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <Interactivity:Interaction.Behaviors>
+                <Core:EventTriggerBehavior EventName="ItemClick">
+                    <Commons:ItemClickInvokeCommandAction Command="{x:Bind ViewModel.SelectItemCommand}"/>
+                </Core:EventTriggerBehavior>
+            </Interactivity:Interaction.Behaviors>
         </ListView>
     </Grid>
 </Page>

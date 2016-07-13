@@ -10,6 +10,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Controls;
 
 namespace MVVMApp.UWP.ViewModels
 {
@@ -70,6 +71,14 @@ namespace MVVMApp.UWP.ViewModels
             set { this.SetProperty(ref this.loadGeoInfoCommand, value); }
         }
 
+        private ReactiveCommand<ShopViewModel> selectItemCommand;
+
+        public ReactiveCommand<ShopViewModel> SelectItemCommand
+        {
+            get { return this.selectItemCommand; }
+            set { this.SetProperty(ref this.selectItemCommand, value); }
+        }
+
         public MainPageViewModel(IHotpepperApp app, INavigationService navigationService)
         {
             this.HotpepperApp = app;
@@ -99,15 +108,6 @@ namespace MVVMApp.UWP.ViewModels
                 .ToReadOnlyReactiveCollection(x => new ShopViewModel(x))
                 .AddTo(this.Disposable);
 
-            this.SelectedShop = new ReactiveProperty<ShopViewModel>(this.Shops.FirstOrDefault(x => x.Model == this.HotpepperApp.SelectedShop));
-            this.SelectedShop
-                .Skip(1)
-                .Subscribe(x =>
-                {
-                    this.NavigationService.Navigate("Detail", x.Model.id);
-                })
-                .AddTo(this.Disposable);
-
             this.LoadGeoInfoCommand = new ReactiveCommand();
             this.LoadGeoInfoCommand.Subscribe(async _ => await this.HotpepperApp.LoadGeoInfoAsync())
                 .AddTo(this.Disposable);
@@ -115,6 +115,9 @@ namespace MVVMApp.UWP.ViewModels
             this.LoadShopsCommand = new ReactiveCommand();
             this.LoadShopsCommand.Subscribe(async _ => await this.HotpepperApp.LoadShopsAsync())
                 .AddTo(this.Disposable);
+
+            this.SelectItemCommand = new ReactiveCommand<ShopViewModel>();
+            this.SelectItemCommand.Subscribe(x => this.NavigationService.Navigate("Detail", x.Model.id));
         }
 
         public override void OnNavigatingFrom(NavigatingFromEventArgs e, Dictionary<string, object> viewModelState, bool suspending)
